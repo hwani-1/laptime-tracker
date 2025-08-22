@@ -3,3 +3,5 @@ python-dotenv
 pymongo[srv]
 certifi
 google-cloud-vision
+boto3
+gunicorn
