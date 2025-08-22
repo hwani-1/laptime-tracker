@@ -1,7 +1,9 @@
-Flask
-python-dotenv
-pymongo[srv]
-certifi
-google-cloud-vision
 boto3
+certifi
+Flask
+Flask-Cors
+google-cloud-vision
 gunicorn
+pymongo[srv]
+python-dotenv
+zoneinfo
