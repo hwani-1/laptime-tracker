@@ -1,0 +1,213 @@
+/* frontend/src/App.css */
+
+body {
+  background-color: #1a1d23;
+  color: #e6e6e6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  margin: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 40px 20px;
+  border-bottom: 2px solid #61dafb;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #61dafb;
+}
+
+main {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* --- 업로드 폼 --- */
+.upload-container {
+  padding: 20px;
+  background-color: #282c34;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+.upload-container h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+  color: #61dafb;
+}
+
+.upload-container input[type="file"] {
+  margin-right: 10px;
+  color: #e6e6e6;
+}
+
+.upload-container button {
+  padding: 10px 15px;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 4px;
+  color: #282c34;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.upload-container button:hover {
+  background-color: #88eaff;
+}
+
+/* --- 맵 선택 --- */
+.map-selection {
+  background-color: #282c34;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background-color: #1a1d23;
+  color: white;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.map-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.map-button {
+  padding: 20px;
+  background-color: #3c4049;
+  border: 1px solid #555;
+  color: #e6e6e6;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.map-button:hover {
+  background-color: #4a4e57;
+  transform: translateY(-3px);
+}
+
+/* --- 랭킹 테이블 --- */
+.ranking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* 화면이 좁아지면 줄바꿈 허용 */
+  gap: 10px;
+}
+
+.ranking-header h2 {
+  margin: 0;
+  color: #61dafb;
+}
+
+.back-button {
+  padding: 8px 12px;
+  background-color: transparent;
+  border: 1px solid #61dafb;
+  color: #61dafb;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.back-button:hover {
+  background-color: #61dafb;
+  color: #282c34;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #282c34;
+  font-size: 1rem; /* 기본 폰트 크기 */
+}
+
+th, td {
+  border: 1px solid #444;
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background-color: #1a1d23;
+  font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #3c4049;
+}
+
+
+/* ---------------------------------- */
+/* --- 반응형 디자인을 위한 미디어 쿼리 --- */
+/* ---------------------------------- */
+@media (max-width: 768px) {
+  .App-header h1 {
+    font-size: 2rem;
+  }
+
+  main {
+    padding: 10px;
+  }
+
+  .map-list {
+    /* 맵 목록을 1열로 변경 */
+    grid-template-columns: 1fr;
+  }
+
+  .ranking-header {
+    flex-direction: column; /* 제목과 버튼을 세로로 배열 */
+    align-items: flex-start;
+  }
+
+  table {
+    font-size: 0.8rem; /* 모바일에서 표 글자 크기 줄이기 */
+  }
+
+  th, td {
+    padding: 8px; /* 표 내부 여백 줄이기 */
+  }
+
+  /* 업로드 폼 요소들을 세로로 배열 */
+  .upload-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* --- Link Color Fix --- */
+table a:link,
+table a:visited {
+  color: #61dafb; /* Use the theme's accent blue color */
+  text-decoration: none; /* Remove the underline */
+}
+
+table a:hover {
+  text-decoration: underline; /* Show underline only when hovering */
+}
