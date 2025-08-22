@@ -6,6 +6,7 @@ import datetime
 import certifi
 import boto3
 import io
+import json # <--- Add this import
 from zoneinfo import ZoneInfo
 from flask import Flask, request, jsonify
 from pymongo import MongoClient, ASCENDING
@@ -14,8 +15,23 @@ from config import Config
 from google.cloud import vision
 from flask_cors import CORS
 
+# --- Dynamic Google Credentials Setup (for Render) ---
+# This block checks if the JSON key is in an environment variable.
+# If so, it writes it to a temporary file for the Google library to use.
+gcp_json_credentials_str = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS_JSON')
+if gcp_json_credentials_str:
+    # Parse the string as JSON
+    gcp_credentials_json = json.loads(gcp_json_credentials_str)
+    # Write to a temporary file
+    with open('gcp-credentials.json', 'w') as f:
+        json.dump(gcp_credentials_json, f)
+    # Tell the Google library to use this new file
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'gcp-credentials.json'
+
+
 # --- App & DB Setup ---
 app = Flask(__name__)
+# ... the rest of the file is exactly the same ...
 app.config.from_object(Config)
 CORS(app)
 
@@ -92,7 +108,6 @@ def upload_and_process_screenshot():
         print("---------------------------")
         
         map_name_match = re.search(r"(.+)\n\(.*\)", full_text)
-        # FINAL FIX: Use a non-greedy match to find the *next* time after the anchor
         lap_time_match = re.search(r"최단 시간(?:.|\n)*?(\d{1,2}:\d{2}\.\d{2,3})", full_text)
         username_match = re.search(r"(?:Te|\d+)\s+\d+\s+(\S+)", full_text)
 
