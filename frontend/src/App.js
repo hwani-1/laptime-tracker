@@ -6,33 +6,43 @@ import RankingTable from './components/RankingTable';
 import UploadForm from './components/UploadForm';
 
 function App() {
-  const [allLaptimes, setAllLaptimes] = useState([]);
-  const [selectedMap, setSelectedMap] = useState(''); // 선택된 맵 (초기값 없음)
-  const [searchTerm, setSearchTerm] = useState(''); // 맵 검색어
+  // ... (useState hooks remain the same)
+  const [laptimes, setLaptimes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedMap, setSelectedMap] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // 1. 전체 랩타임 데이터를 한 번만 불러옵니다.
-  const fetchAllLaptimes = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/laptimes');
-      if (!response.ok) throw new Error('데이터를 불러오는 데 실패했습니다.');
-      const data = await response.json();
-      setAllLaptimes(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAllLaptimes();
-  }, []);
-
-  // 2. 전체 데이터에서 맵 목록을 추출하고 검색어로 필터링합니다.
-  const uniqueMaps = [...new Set(allLaptimes.map(lap => lap.map_name))];
+  const uniqueMaps = ['All', ...new Set(laptimes.map(lap => lap.map_name))];
   const filteredMaps = uniqueMaps.filter(map => 
     map.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const fetchLaptimes = async () => {
+    setIsLoading(true);
+    // Use the environment variable for the URL
+    const url = `${process.env.REACT_APP_API_URL}/api/laptimes?map=${selectedMap}`;
+    try {
+      const response = await fetch(url);
+      // ... (rest of the function is the same)
+      if (!response.ok) {
+        throw new Error('Data could not be fetched.');
+      }
+      const data = await response.json();
+      setLaptimes(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchLaptimes();
+  }, [selectedMap]);
+
+
   return (
+    // ... (the JSX part remains the same)
     <div className="App">
       <header className="App-header">
         <h1>Lap Time Records</h1>
@@ -40,15 +50,14 @@ function App() {
       </header>
       
       <main>
-        <UploadForm onUploadSuccess={fetchAllLaptimes} />
+        <UploadForm onUploadSuccess={fetchLaptimes} />
         
         <div className="ranking-section">
-          {/* 3. 선택된 맵이 있으면 랭킹을, 없으면 맵 선택 UI를 보여줍니다. */}
           {selectedMap ? (
             <RankingTable
-              laptimes={allLaptimes.filter(lap => lap.map_name === selectedMap)}
+              laptimes={laptimes.filter(lap => lap.map_name === selectedMap)}
               selectedMap={selectedMap}
-              onBack={() => setSelectedMap('')} // 뒤로가기 기능
+              onBack={() => setSelectedMap('')}
             />
           ) : (
             <div className="map-selection">
