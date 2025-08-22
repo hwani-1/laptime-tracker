@@ -6,4 +6,3 @@ google-cloud-vision
 gunicorn
 pymongo[srv]
 python-dotenv
-zoneinfo
